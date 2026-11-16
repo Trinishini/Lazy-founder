@@ -61,7 +61,7 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 globalThis.EventSource = class {
   close() {}
 };
-// The Mac app's bridge, as far as Restart Bops asks: it can restart.
+// The Mac app's bridge, as far as Restart The Lazy Founder asks: it can restart.
 let relaunched = 0;
 globalThis.bopsMac = { relaunch: async () => void relaunched++ };
 
@@ -318,7 +318,7 @@ await test("the app: the page beside the sidebar, which stays to go anywhere; Es
 
 /* ---------------- Your initials: Team, and Restart asked in place ---------------- */
 
-await test("your initials' menu: Team first with its count, which is on the initials too; Restart Bops asked in the menu", async () => {
+await test("your initials' menu: Team first with its count, which is on the initials too; Restart The Lazy Founder asked in the menu", async () => {
   const opened = [];
   const m = await mount(h(YouMenu, { state: stateOf(), onAccount: () => opened.push("plan"), onSettings: () => opened.push("settings"), onSetup: () => opened.push("mac"), onTeam: () => opened.push("team") }));
   try {
@@ -328,25 +328,25 @@ await test("your initials' menu: Team first with its count, which is on the init
     await click(avatar);
     const items = [...m.box.querySelectorAll('[role="menuitem"]')].map((b) => b.textContent.trim());
     assert.deepEqual(items.slice(0, 4), ["Team1", "Settings", "Plan and usage", "Permissions on this Mac"]);
-    assert.ok(items.includes("Restart Bops") && items.includes("Sign out"));
+    assert.ok(items.includes("Restart The Lazy Founder") && items.includes("Sign out"));
     assert.equal(m.box.querySelector('[role="menu"]').getAttribute("class").includes("absolute"), true, "anchored to the initials, a menu, not a sheet");
     await click(m.box.querySelector("[data-menu-team]"));
     assert.deepEqual(opened, ["team"], "Team opens Settings at Team");
     assert.equal(!!m.box.querySelector('[role="menu"]'), false, "and the menu closes");
-    // Restart Bops: the row turns into its question, in the menu; Cancel puts it back, Restart restarts.
+    // Restart The Lazy Founder: the row turns into its question, in the menu; Cancel puts it back, Restart restarts.
     await click(avatar);
-    await click(buttonOf(m.box, "Restart Bops"));
+    await click(buttonOf(m.box, "Restart The Lazy Founder"));
     const ask = m.box.querySelector("[data-ask-in-place]");
     assert.ok(ask && m.box.querySelector('[role="menu"]').contains(ask), "asked in place, in the menu");
-    assert.match(ask.textContent, /Restart Bops\?Your bots pause for a few seconds\./);
+    assert.match(ask.textContent, /Restart The Lazy Founder\?Your bots pause for a few seconds\./);
     assert.deepEqual(overlays(), [], "no dialog over the app");
     await click(buttonOf(ask, "Cancel"));
     assert.equal(!!m.box.querySelector("[data-ask-in-place]"), false);
-    assert.ok(!!buttonOf(m.box, "Restart Bops"), "the button back, the menu still open");
-    await click(buttonOf(m.box, "Restart Bops"));
+    assert.ok(!!buttonOf(m.box, "Restart The Lazy Founder"), "the button back, the menu still open");
+    await click(buttonOf(m.box, "Restart The Lazy Founder"));
     await key(doc, "Escape");
     assert.equal(!!m.box.querySelector("[data-ask-in-place]"), false, "Esc is Cancel");
-    await click(buttonOf(m.box, "Restart Bops"));
+    await click(buttonOf(m.box, "Restart The Lazy Founder"));
     await click(buttonOf(m.box.querySelector("[data-ask-in-place]"), "Restart"));
     assert.equal(relaunched, 1, "Restart hands over to the Mac app");
   } finally {

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { PRODUCT_NAME } from "@/lib/brand";
 import type { AppState } from "@/lib/types";
 import { Spinner } from "./mascot";
 import { useMacApp } from "./mac-screens";
@@ -253,7 +254,7 @@ const ICONS = {
 };
 
 const COPY: Record<"screen" | "microphone" | "notifications", { title: string; line: string }> = {
-  screen: { title: "Screen recording", line: "See your Mac live in Bops, and watch bots work on it." },
+  screen: { title: "Screen recording", line: `See your Mac live in ${PRODUCT_NAME}, and watch bots work on it.` },
   microphone: { title: "Microphone", line: "Talk to your bots on a call." },
   notifications: { title: "Notifications", line: "Hear from bots when something needs you." },
 };
@@ -264,14 +265,14 @@ function PermissionCard({ id, items }: { id: "screen" | "microphone" | "notifica
   const s = perms.status?.[id];
   const copy = COPY[id];
   if (!perms.inApp)
-    return <Card icon={ICONS[id]} title={copy.title} line={copy.line} tone="none" status="Needs the Bops app for Mac" />;
+    return <Card icon={ICONS[id]} title={copy.title} line={copy.line} tone="none" status={`Needs the ${PRODUCT_NAME} app for Mac`} />;
   if (!s) return <Card icon={ICONS[id]} title={copy.title} line={copy.line} tone="none" status="Checking" />;
   // Screen Recording turned on while Bops was open: macOS applies it on the next launch.
   const restart = id === "screen" && (perms.restart || (s !== "granted" && sentToSettings.has("screen")));
   const status =
     s === "granted"
       ? id === "screen" && perms.restart
-        ? "Allowed. Restart Bops to use it"
+        ? `Allowed. Restart ${PRODUCT_NAME} to use it`
         : "Allowed"
       : s === "restricted"
         ? id === "notifications"
@@ -279,7 +280,7 @@ function PermissionCard({ id, items }: { id: "screen" | "microphone" | "notifica
           : "Blocked by your Mac's settings or admin"
         : s === "denied"
           ? restart
-            ? "Turn on Bops in System Settings, then restart Bops"
+            ? `Turn on ${PRODUCT_NAME} in System Settings, then restart it`
             : "Off. Turn it on in System Settings"
           : id === "notifications" && s === "unknown"
             ? "Asked. Check System Settings if none showed"
@@ -289,7 +290,7 @@ function PermissionCard({ id, items }: { id: "screen" | "microphone" | "notifica
     <Card icon={ICONS[id]} title={copy.title} line={copy.line} tone={tone} status={status} below={restarting ? <RestartAsk compact onCancel={() => setRestarting(false)} /> : undefined}>
       {restart && !restarting && (
         <button onClick={() => setRestarting(true)} className={s === "granted" ? dark : light}>
-          Restart Bops
+          Restart {PRODUCT_NAME}
         </button>
       )}
       {s === "not-determined" || (id === "notifications" && s === "unknown") ? (
@@ -442,7 +443,7 @@ function FullAccessSetup({ items }: { items: Items }) {
       {row(
         disk,
         "Your files",
-        disk ? "Bops has Full Disk Access." : "Give Bops Full Disk Access in System Settings, then come back.",
+        disk ? `${PRODUCT_NAME} has Full Disk Access.` : `Give ${PRODUCT_NAME} Full Disk Access in System Settings, then come back.`,
         !disk && (
           <button onClick={() => void items.openSettings("fullDisk")} className={dark}>
             Open Settings

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useSyncExternalStore } from "react";
+import { PRODUCT_NAME } from "@/lib/brand";
 import { AskInPlace } from "./ui";
 
 /*
@@ -48,11 +49,11 @@ export function RestartAsk({ onCancel, compact = false }: { onCancel: () => void
   return (
     <AskInPlace
       compact={compact}
-      title="Restart Bops?"
+      title={`Restart ${PRODUCT_NAME}?`}
       line="Your bots pause for a few seconds."
       action="Restart"
       busy={busy}
-      error={failed ? "Couldn't restart. Quit Bops and open it again." : null}
+      error={failed ? `Couldn't restart. Quit ${PRODUCT_NAME} and open it again.` : null}
       onConfirm={() => void restart()}
       onCancel={onCancel}
     />

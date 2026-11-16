@@ -83,7 +83,7 @@ fi
 # node_modules folder, so package.json copies .next/standalone/node_modules on its own).
 npx electron-builder --mac "$@"
 
-app="$root/dist-desktop/mac-arm64/Bops.app"
+app="$root/dist-desktop/mac-arm64/The Lazy Founder.app"
 
 # 5. Smoke test: the bundled server starts with the app's own Node and serves the app and its state
 # without a missing file. It runs as a fresh install does: no keys (env -i drops this shell's), an
@@ -93,7 +93,7 @@ smoke="$(mktemp -d)"
 for f in "$app/Contents/Resources/server/"* "$app/Contents/Resources/server/.next"; do ln -s "$f" "$smoke/"; done
 (cd "$smoke" && exec env -i HOME="$smoke" PATH=/usr/bin:/bin:/usr/sbin:/sbin ELECTRON_RUN_AS_NODE=1 NODE_ENV=production \
   PORT=3299 HOSTNAME=127.0.0.1 BOPS_SERVER_JS="$app/Contents/Resources/server/server.js" \
-  "$app/Contents/MacOS/Bops" -e "process.chdir = () => {}; require(process.env.BOPS_SERVER_JS)" > "$smoke/server.log" 2>&1) &
+  "$app/Contents/MacOS/The Lazy Founder" -e "process.chdir = () => {}; require(process.env.BOPS_SERVER_JS)" > "$smoke/server.log" 2>&1) &
 smoke_pid=$!
 ok=""
 for _ in $(seq 1 60); do
@@ -150,13 +150,13 @@ if [ -n "$signing" ] && [ -z "$dir_only" ]; then
     [ -e "$z" ] || continue
     unz="$(mktemp -d)"
     ditto -x -k "$z" "$unz"
-    if ! codesign --verify --deep --strict -R='identifier "ai.orgo.bops" and anchor apple generic and certificate leaf[subject.OU] = A47GG9FV27' "$unz/Bops.app"; then
+    if ! codesign --verify --deep --strict -R='identifier "ai.orgo.bops" and anchor apple generic and certificate leaf[subject.OU] = A47GG9FV27' "$unz/The Lazy Founder.app"; then
       rm -rf "$unz"
       echo "$z: the zip's app isn't signed so Bops can update to it." >&2
       exit 1
     fi
     if [ -n "$notarizing" ]; then
-      if ! xcrun stapler validate "$unz/Bops.app" || ! spctl -a -t exec -vv "$unz/Bops.app"; then
+      if ! xcrun stapler validate "$unz/The Lazy Founder.app" || ! spctl -a -t exec -vv "$unz/The Lazy Founder.app"; then
         rm -rf "$unz"
         echo "$z: the zip's app isn't notarized and stapled. Not fit to publish." >&2
         exit 1

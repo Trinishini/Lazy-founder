@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { PRODUCT_NAME } from "@/lib/brand";
 
 /*
  * A newer Bops. The Mac app asks bops.bot for the newest release at launch and every hour and
@@ -193,7 +194,7 @@ export function UpdateSettings() {
     <div className="flex items-center gap-3 rounded-[14px] p-3.5 shadow-[0_0_0_1px_#E6E6E3]">
       <div className="flex flex-1 flex-col gap-0.5">
         <span className="text-[13px] font-medium">Download updates automatically</span>
-        <span className="text-[12px] leading-4 text-[#6B6B6B]">New versions download in the background. Restart Bops to use one.</span>
+        <span className="text-[12px] leading-4 text-[#6B6B6B]">New versions download in the background. Restart {PRODUCT_NAME} to use one.</span>
       </div>
       <button
         type="button"

@@ -13,6 +13,7 @@ import { lastMessageOf, MainStar, sidebarList, SidebarFooter, YouMenuView } from
 import { GROUP_WORDS } from "@/lib/bot-groups";
 import type { FooterPage } from "./sidebar-footer";
 import { needsByBot, railMark, threadsByBot } from "./sidebar-sections";
+import { BrandMark } from "./brand-mark";
 import { ChatAvatar, chatName, currentWorkspace, RoundButton, SideToggleIcon } from "./ui";
 import { UpdateButton } from "./update-notice";
 import { MailAddressRail } from "./mail-address";
@@ -146,6 +147,7 @@ export function SidebarRail({
   return (
     <aside data-tip-side="right" aria-label="Sidebar, collapsed" className="flex min-h-0 w-[72px] shrink-0 flex-col px-3 pb-3 pt-3.5">
       <div className="flex flex-col items-center gap-2 pb-3">
+        <BrandMark size={34} />
         <button onClick={onExpand} aria-label="Expand the sidebar" data-tip="Expand the sidebar (⌘\)" className="flex size-[34px] shrink-0 items-center justify-center rounded-full hover:bg-black/[0.05]">
           <SideToggleIcon side="left" open={false} />
         </button>

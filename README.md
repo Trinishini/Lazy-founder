@@ -1,12 +1,16 @@
 <p align="center">
-  <a href="https://bops.bot"><img src="desktop/icon.png" width="112" height="112" alt="Bops"></a>
+  <img src="desktop/icon.png" width="112" height="112" alt="The Lazy Founder">
 </p>
 
-<h1 align="center">Bops</h1>
+<h1 align="center">The Lazy Founder</h1>
 
 <p align="center">
-  <b>Business ops, run by bots.</b><br>
-  A team of AI bots that works for you on real computers. Chat with them like teammates, and they get the work done.
+  <b>A team of AI bots for the work you'd rather not do.</b><br>
+  Chat with them like teammates. They run the business ops on real computers.
+</p>
+
+<p align="center">
+  Personal fork of <a href="https://github.com/OrgoAI/bops">OrgoAI/bops</a> for Shini's own use, under its <a href="LICENSE">FSL-1.1-ALv2</a> licence. Not for public distribution or as a hosted product.
 </p>
 
 <p align="center">
@@ -55,7 +59,7 @@
 
 <br>
 
-Bops is a Mac app that gives you a team of AI bots for your business ops: inbox, pipeline, invoices, reports. They work on cloud computers you can watch live and take over at any time. Reach them in the app and in Slack, Telegram and Discord, and on Pro and Max by text, call or email. They remember who you are and what they did yesterday.
+The Lazy Founder is a Mac app, forked from Bops, that gives you a team of AI bots for your business ops: inbox, pipeline, invoices, reports. They work on cloud computers you can watch live and take over at any time. Reach them in the app and in Slack, Telegram and Discord, and on Pro and Max by text, call or email. They remember who you are and what they did yesterday.
 
 <p align="center">
   <img src="docs/images/app.png" width="100%" alt="Bops: Boppy's chat on the left, and its computer's four screens on the right, building a lead list">
@@ -189,7 +193,7 @@ npm run setup                # dependencies, .env.local from .env.example, and a
 npm run app                  # opens the app, which starts the server on port 3210
 ```
 
-In `.env.local`, fill in at least `OPENAI_API_KEY` and `OPENAI_EXECUTOR_API_KEY`, and `ORGO_API_KEY` to skip signing in. Or set `BOPS_SELF_HOSTED=0` and sign in with Orgo: Bops Cloud then calls the providers, and you need no keys of your own. Run `npm run setup` again any time; it only adds what's missing.
+In `.env.local`, fill in at least `OPENAI_API_KEY` and `OPENAI_EXECUTOR_API_KEY`, and `ORGO_API_KEY` to skip signing in. Or set `BOPS_SELF_HOSTED=0` and sign in with Orgo: Bops Cloud then calls the providers, and you need no keys of your own. Run `npm run setup` again any time; it only adds what's missing. `npm run app` opens the window as The Lazy Founder. The Mac app keeps this Mac's settings in `~/Library/Application Support/The Lazy Founder/.env.local`.
 
 Or run the server alone with `npx next dev --port 3210 -H 127.0.0.1` and open http://127.0.0.1:3210. Leave out `-H 127.0.0.1` only when `edge/` or the bots' computers must reach it over your tailnet.
 
@@ -234,7 +238,7 @@ Optional, for self-hosting:
 
 The relay also takes `/hooks/slack` for your own Slack app, and `/hooks/openai` for a number you route to an OpenAI SIP trunk yourself (with `OPENAI_WEBHOOK_SECRET`). Every webhook is signature-checked. US texting needs an A2P 10DLC registration for your brand.
 
-The packaged app's server listens on 127.0.0.1 only. To let webhooks reach it over the tailnet, add `BOPS_LISTEN_ALL=1` to `~/Library/Application Support/Bops/.env.local`. Other addresses can then reach only the webhook paths and the bots' computers' calls, each of which proves itself.
+The packaged app's server listens on 127.0.0.1 only. To let webhooks reach it over the tailnet, add `BOPS_LISTEN_ALL=1` to `~/Library/Application Support/The Lazy Founder/.env.local`. Other addresses can then reach only the webhook paths and the bots' computers' calls, each of which proves itself.
 
 ## Releasing the Mac app
 
@@ -242,7 +246,7 @@ The packaged app's server listens on 127.0.0.1 only. To let webhooks reach it ov
 scripts/release.sh          # or: npm run app:release
 ```
 
-It fetches the relay agent and the ingot command, builds the server (Next.js standalone), packs it into Bops.app with its own Node, and makes `dist-desktop/Bops-<version>-arm64.dmg` and `.zip`. Before it finishes, it starts the bundled server as a fresh install would and checks that it answers. The installed app keeps its local files (and, self-hosted, its state) in `~/Library/Application Support/Bops/server/.data`, and its log in `~/Library/Logs/Bops/server.log`.
+It fetches the relay agent and the ingot command, builds the server (Next.js standalone), packs it into The Lazy Founder.app with its own Node, and makes `dist-desktop/The Lazy Founder-<version>-arm64.dmg` and `.zip`. Before it finishes, it starts the bundled server as a fresh install would and checks that it answers. The installed app keeps its local files (and, self-hosted, its state) in `~/Library/Application Support/The Lazy Founder/server/.data`, and its log in `~/Library/Logs/The Lazy Founder/server.log`.
 
 A release needs:
 
@@ -251,7 +255,7 @@ A release needs:
 - **A Developer ID Application certificate**, in the keychain or as `CSC_LINK` plus `CSC_KEY_PASSWORD` (`CSC_NAME` picks one when there are several). An Apple Development certificate is not enough. Without one, the script builds an unsigned app for testing on your own Mac.
 - **Notarization credentials:** an App Store Connect API key (`APPLE_API_KEY`, `APPLE_API_KEY_ID`, `APPLE_API_ISSUER`), or an Apple ID (`APPLE_ID`, `APPLE_APP_SPECIFIC_PASSWORD`, `APPLE_TEAM_ID`).
 
-To try your changes in the app, run `npm run app:build`. It makes an unsigned development app that runs `next dev` from this folder. `npm run app:install` builds the same app, then deletes `/Applications/Bops.app` and puts this one in its place.
+To try your changes in the app, run `npm run app:build`. It makes an unsigned development app that runs `next dev` from this folder. `npm run app:install` builds the same app, then deletes `/Applications/The Lazy Founder.app` and puts this one in its place.
 
 Orgo's releases are built from a version tag of this repository by a workflow in Orgo's private repository, which holds the signing and notarization secrets. It builds, signs and notarizes on a GitHub Mac, checks that Gatekeeper accepts the app, and attaches the DMG and zip to the release here with that version's notes from `docs/releases/`. This repository holds no secrets.
 
@@ -291,7 +295,7 @@ npm run lint
 
 ## Privacy
 
-Signed in with Orgo, Bops sends Orgo usage events through PostHog, the analytics service orgo.ai uses: the app opening, a bot being made, a message sent or a task finished (counted, never read), a plan changing, and errors in Bops' own code (the error's type and where in Bops' code it happened, never its message). They are tied to your Orgo account and never include what you or your bots write, say or see: no messages, emails, files, contacts, phone numbers, web addresses, screens or keys. Like orgo.ai, the app's window also sends device details: OS, screen size, time zone, a device id and approximate location from your IP. Bops doesn't record your screen or your sessions. Turn it off for all your Macs in **Settings → You → Share usage data**, or on one Mac with `BOPS_TELEMETRY=0` or `DO_NOT_TRACK=1` in `~/Library/Application Support/Bops/.env.local`. The one-Mac setting stops what that Mac sends and what Bops Cloud sends for it; account events Bops Cloud sees on its own (AI credit running out, a plan changing, a number your plan set up) stop only with the Settings switch. Self-hosted (`BOPS_SELF_HOSTED=1`), Bops sends nothing. Every event and property is listed in [`cloud/analytics-rules.ts`](cloud/analytics-rules.ts). See Orgo's [Privacy Policy](https://www.orgo.ai/privacy) and [subprocessors](https://www.orgo.ai/subprocessors).
+Signed in with Orgo, Bops sends Orgo usage events through PostHog, the analytics service orgo.ai uses: the app opening, a bot being made, a message sent or a task finished (counted, never read), a plan changing, and errors in Bops' own code (the error's type and where in Bops' code it happened, never its message). They are tied to your Orgo account and never include what you or your bots write, say or see: no messages, emails, files, contacts, phone numbers, web addresses, screens or keys. Like orgo.ai, the app's window also sends device details: OS, screen size, time zone, a device id and approximate location from your IP. Bops doesn't record your screen or your sessions. Turn it off for all your Macs in **Settings → You → Share usage data**, or on one Mac with `BOPS_TELEMETRY=0` or `DO_NOT_TRACK=1` in `~/Library/Application Support/The Lazy Founder/.env.local`. The one-Mac setting stops what that Mac sends and what Bops Cloud sends for it; account events Bops Cloud sees on its own (AI credit running out, a plan changing, a number your plan set up) stop only with the Settings switch. Self-hosted (`BOPS_SELF_HOSTED=1`), Bops sends nothing. Every event and property is listed in [`cloud/analytics-rules.ts`](cloud/analytics-rules.ts). See Orgo's [Privacy Policy](https://www.orgo.ai/privacy) and [subprocessors](https://www.orgo.ai/subprocessors).
 
 ## Security
 

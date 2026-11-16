@@ -227,6 +227,8 @@ assert.deepEqual(await passed("launch_app", { name: "Notes" }), { name: "Notes" 
 await refused("launch_app", { bundle_id: "ai.orgo.bops" }, /Bops itself is off limits/);
 await refused("launch_app", { name: "Terminal" }, /off limits/);
 await refused("launch_app", { name: "/Applications/Bops.app" }, /off limits/);
+await refused("launch_app", { name: "The Lazy Founder" }, /Bops itself is off limits/);
+await refused("launch_app", { name: "/Applications/The Lazy Founder.app" }, /off limits/);
 await refused("launch_app", { bundle_id: "com.googlecode.iterm2" }, /off limits/);
 await refused("launch_app", { name: "System Settings" }, /off limits/);
 await refused("launch_app", { bundle_id: "com.apple.finder", urls: ["/Applications/Utilities/Terminal.app"] }, /not apps/);

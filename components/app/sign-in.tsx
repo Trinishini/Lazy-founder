@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { PRODUCT_NAME } from "@/lib/brand";
 import { PRIVACY, TERMS } from "@/lib/links";
-import { Mascot, Spinner } from "./mascot";
+import { BrandMark } from "./brand-mark";
+import { Spinner } from "./mascot";
 import { useTelemetryHere } from "./usage-data";
 
 /*
@@ -83,12 +85,12 @@ export function CloudUnreachable({ onRetry }: { onRetry: () => void }) {
     return () => clearTimeout(t);
   }, [busy]);
   return (
-    <div className="flex h-screen flex-col bg-desk text-ink">
+    <div className="flex h-screen flex-col bg-brand text-brand-foreground">
       <div className="h-11 shrink-0 [-webkit-app-region:drag]" />
       <div className="flex flex-1 flex-col items-center justify-center px-6 pb-16">
-        <div className="flex w-[400px] animate-[call-in_220ms_ease-out] flex-col items-center rounded-[22px] bg-white px-8 pb-7 pt-9 shadow-[0_0_0_1px_#0000000F,0_30px_70px_-28px_#00000038]">
-          <Mascot botId="boppy" color="#0A0A0A" size={56} />
-          <Heading title="Can't reach Bops Cloud" line="Bops can't reach Bops Cloud to load your chats. Check your internet connection." />
+        <div className="flex w-[400px] animate-[call-in_220ms_ease-out] flex-col items-center rounded-[22px] bg-brand px-8 pb-7 pt-9 shadow-[0_0_0_1px_#C6FF0033,0_30px_70px_-28px_#00000080]">
+          <BrandMark size={56} />
+          <Heading title="Can't reach Bops Cloud" line={`${PRODUCT_NAME} can't reach Bops Cloud to load your chats. Check your internet connection.`} />
           <button
             disabled={busy}
             onClick={() => {
@@ -132,8 +134,8 @@ const openInBrowser = (url: string) => void window.open(url, "_blank", "noopener
 
 const primary = "flex h-10 w-full items-center justify-center gap-2 rounded-full bg-ink text-[13.5px] font-medium text-white disabled:opacity-50";
 const secondary =
-  "flex h-10 w-full items-center justify-center gap-2 rounded-full text-[13.5px] font-medium shadow-[0_0_0_1px_#E6E6E3] hover:bg-[#FCFCFB] disabled:opacity-50";
-const link = "font-medium text-ink underline underline-offset-2 hover:text-[#3A3A38] disabled:opacity-50";
+  "flex h-10 w-full items-center justify-center gap-2 rounded-full text-[13.5px] font-medium text-brand-foreground shadow-[0_0_0_1px_#C6FF0055] hover:bg-white/5 disabled:opacity-50";
+const link = "font-medium text-lime underline underline-offset-2 hover:text-white disabled:opacity-50";
 
 export function SignIn({ onSignedIn }: { onSignedIn: () => void }) {
   const [step, setStep] = useState<Step>({ kind: "idle" });
@@ -220,13 +222,13 @@ export function SignIn({ onSignedIn }: { onSignedIn: () => void }) {
   }, [step.kind, onSignedIn]);
 
   return (
-    <div className="flex h-screen flex-col bg-desk text-ink">
+    <div className="flex h-screen flex-col bg-brand text-brand-foreground">
       {/* The window's title bar: drag it like any other. */}
       <div className="h-11 shrink-0 [-webkit-app-region:drag]" />
       <div className="flex flex-1 flex-col items-center justify-center px-6 pb-16">
-        <div className="flex w-[400px] animate-[call-in_220ms_ease-out] flex-col items-center rounded-[22px] bg-white px-8 pb-7 pt-9 shadow-[0_0_0_1px_#0000000F,0_30px_70px_-28px_#00000038]">
+        <div className="flex w-[400px] animate-[call-in_220ms_ease-out] flex-col items-center rounded-[22px] bg-brand px-8 pb-7 pt-9 shadow-[0_0_0_1px_#C6FF0033,0_30px_70px_-28px_#00000080]">
           <span className={step.kind === "waiting" || step.kind === "starting" || step.kind === "saving" ? "animate-[bob_2.4s_ease-in-out_infinite] motion-reduce:animate-none" : ""}>
-            <Mascot botId="boppy" color="#0A0A0A" size={56} />
+            <BrandMark size={64} />
           </span>
           {step.kind === "waiting" ? (
             <Waiting step={step} way={way} onReopen={() => openInBrowser(step.code.verificationUrl)} onCancel={cancel} />
@@ -245,18 +247,18 @@ export function SignIn({ onSignedIn }: { onSignedIn: () => void }) {
             />
           )}
         </div>
-        <span className="pt-5 text-[12px] leading-4 text-pencil">
+        <span className="pt-5 text-[12px] leading-4 text-brand-muted">
           By continuing you agree to Orgo&apos;s{" "}
-          <a href={TERMS} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-ink">
+          <a href={TERMS} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-lime">
             Terms
           </a>{" "}
           and{" "}
-          <a href={PRIVACY} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-ink">
+          <a href={PRIVACY} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-lime">
             Privacy Policy
           </a>
           .
         </span>
-        {telemetryHere && <span className="pt-1.5 text-[12px] leading-4 text-pencil">Bops shares usage counts and error reports with Orgo, never your content. You can turn this off in Settings.</span>}
+        {telemetryHere && <span className="pt-1.5 text-[12px] leading-4 text-brand-muted">{PRODUCT_NAME} shares usage counts and error reports with Orgo, never your content. You can turn this off in Settings.</span>}
       </div>
     </div>
   );
@@ -266,7 +268,7 @@ function Heading({ title, line }: { title: string; line: string }) {
   return (
     <div className="flex flex-col items-center gap-1.5 pb-6 pt-5 text-center">
       <span className="text-[20px] font-semibold leading-6 tracking-[-0.01em]">{title}</span>
-      <span className="max-w-[300px] text-[13.5px] leading-[19px] text-pencil">{line}</span>
+      <span className="max-w-[300px] text-[13.5px] leading-[19px] text-brand-muted">{line}</span>
     </div>
   );
 }
@@ -276,7 +278,7 @@ function Welcome({ starting, onStart }: { starting: Way | null; onStart: (way: W
   const busy = starting !== null;
   return (
     <>
-      <Heading title="Welcome to Bops" line="Sign in or make an account to get started. It's free." />
+      <Heading title={`Welcome to ${PRODUCT_NAME}`} line="Sign in or make an account to get started. It's free." />
       <div className="flex w-full flex-col gap-2">
         <button disabled={busy} onClick={() => onStart("google")} className={primary}>
           {starting === "google" ? <Spinner size={13} color="#FFFFFF" /> : <GoogleMark />}
@@ -287,7 +289,7 @@ function Welcome({ starting, onStart }: { starting: Way | null; onStart: (way: W
           Continue with email
         </button>
       </div>
-      <span className="flex items-center gap-1.5 pt-3.5 text-center text-[12px] leading-4 text-pencil">
+      <span className="flex items-center gap-1.5 pt-3.5 text-center text-[12px] leading-4 text-brand-muted">
         {starting === "orgo" && <Spinner size={11} color="#6B6B6B" />}
         Have an Orgo account?
         <button disabled={busy} onClick={() => onStart("orgo")} className={link}>
@@ -301,8 +303,8 @@ function Welcome({ starting, onStart }: { starting: Way | null; onStart: (way: W
 const PROBLEMS: Record<Problem, { title: string; line: string; action: string }> = {
   offline: { title: "Couldn't connect", line: "Check your internet connection, then try again.", action: "Try again" },
   orgo: { title: "Something went wrong", line: "Signing in isn't working right now. Try again in a moment.", action: "Try again" },
-  keychain: { title: "Couldn't save your sign-in", line: "Your Mac didn't let Bops keep it in the keychain. Unlock your Mac, then try again.", action: "Try again" },
-  cloud: { title: "Couldn't load your Bops", line: "Couldn't load your Bops from Bops Cloud. Try again.", action: "Try again" },
+  keychain: { title: "Couldn't save your sign-in", line: `Your Mac didn't let ${PRODUCT_NAME} keep it in the keychain. Unlock your Mac, then try again.`, action: "Try again" },
+  cloud: { title: "Couldn't load your account", line: "Couldn't load your account from Bops Cloud. Try again.", action: "Try again" },
 };
 
 /** Where expired, declined and failed attempts come back to: again the same way, or back to pick another. */
@@ -332,7 +334,7 @@ function Retry({
       </button>
       {/* The keychain's and the cloud's retry save the key Orgo already gave; another way would throw it away. */}
       {!keepsKey(step) && (
-        <button onClick={onBack} className="mt-1.5 h-8 text-[12.5px] font-medium text-pencil hover:text-ink">
+        <button onClick={onBack} className="mt-1.5 h-8 text-[12.5px] font-medium text-brand-muted hover:text-lime">
           Choose another way
         </button>
       )}
@@ -370,7 +372,7 @@ function Waiting({ step, way, onReopen, onCancel }: { step: Extract<Step, { kind
       <Heading title="Finish in your browser" line={FINISH[way]} />
       <button
         onClick={copy}
-        className="group flex w-full flex-col items-center gap-1 rounded-[14px] bg-[#F7F7F6] py-4 shadow-[0_0_0_1px_#E6E6E3] hover:bg-[#F3F3F1]"
+        className="group flex w-full flex-col items-center gap-1 rounded-[14px] bg-paper py-4 text-ink shadow-[0_0_0_1px_#C6FF0055] hover:bg-[#F3F3F1]"
       >
         <span className="font-mono text-[26px] font-semibold leading-8 tracking-[0.12em]">{step.code.userCode}</span>
         <span className="text-[11.5px] leading-4 text-pencil">{copied ? "Copied" : "Click to copy"}</span>
@@ -391,7 +393,7 @@ function Waiting({ step, way, onReopen, onCancel }: { step: Extract<Step, { kind
         <button onClick={onReopen} className={secondary}>
           Open the page again
         </button>
-        <button onClick={onCancel} className="h-8 text-[12.5px] font-medium text-pencil hover:text-ink">
+        <button onClick={onCancel} className="h-8 text-[12.5px] font-medium text-brand-muted hover:text-lime">
           Cancel
         </button>
       </div>
@@ -409,7 +411,7 @@ function Approved({ who }: { who: string }) {
         </svg>
         You&apos;re in
       </span>
-      <span className="text-[13.5px] leading-[19px] text-pencil">{who ? `Signed in as ${who}. Opening Bops.` : "Opening Bops."}</span>
+      <span className="text-[13.5px] leading-[19px] text-brand-muted">{who ? `Signed in as ${who}. Opening ${PRODUCT_NAME}.` : `Opening ${PRODUCT_NAME}.`}</span>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState, useSyncExternalStore } from "react";
 import { moodOf, moodSignals, NO_SIGNALS, type MoodSignals } from "@/lib/bot-mood";
 import { blinkPhase, CODER_MIN_SIZE, isMoving, mascotMarkup, type Mood } from "@/lib/mascot";
+import { BrandMark } from "./brand-mark";
 import type { AppState } from "@/lib/types";
 import { useStateArrival } from "./state-arrival";
 import { useWindowVisible } from "./window-visible";
@@ -193,13 +194,16 @@ const NOTES = [
  */
 export function BoppyLoading({ label, children }: { label: string; children?: React.ReactNode }) {
   return (
-    <div className="flex h-screen flex-col items-center justify-center gap-3.5 text-[13px] text-pencil select-none">
+    <div className="flex h-screen flex-col items-center justify-center gap-3.5 bg-brand text-[13px] text-brand-foreground select-none">
+      <BrandMark size={48} />
+      <div className="flex flex-col items-center rounded-[28px] bg-paper px-8 pb-2 pt-5">
       <div className="boppy-loading-scene" aria-hidden="true">
         <div className="boppy-loading-shadow" />
         {(["l", "r", "l", "r"] as const).map((side, i) => (
           <svg key={i} className={`boppy-loading-note ${side}`} viewBox="0 0 24 24" dangerouslySetInnerHTML={{ __html: `<g fill="#0A0A0A">${NOTES[i === 0 || i === 3 ? 0 : 1]}</g>` }} />
         ))}
         <svg className="boppy-loading-boppy" viewBox="0 0 40 40" dangerouslySetInnerHTML={{ __html: mascotMarkup("boppy", "#0A0A0A", { mood: "awake" }) }} />
+      </div>
       </div>
       <div>{label}</div>
       {/* Below the label without moving it: the scene stays where the splash had it. */}

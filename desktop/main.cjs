@@ -241,7 +241,13 @@ async function listener() {
 const named = (l) => (l ? `${l.name} (pid ${l.pid})` : null);
 
 /** A Bops server by its process: Next renames its process ("next-server (v16…)"), and before that it's the Helper. */
-const looksLikeBops = (l) => !!l && (l.comm.startsWith("next-server") || l.comm.includes("Bops Helper"));
+const looksLikeBops = (l) => {
+  if (!l) return false;
+  if (l.comm.startsWith("next-server") || l.comm.includes("Bops Helper")) return true;
+  const name = app.getName();
+  // macOS keeps only the first 16 characters of a process name, so the helper may be truncated.
+  return l.comm.includes(`${name} Helper`) || l.comm.includes(name) || l.comm.includes(name.slice(0, 15));
+};
 
 /*
  * A server Bops may stop: a Bops server of this user's, running in this Mac's Application Support,
@@ -655,7 +661,7 @@ async function serverGone(what = "server") {
       // The trouble page itself crashed: the same words again, a few times; then a dialog, which needs no page.
       if (failures.length <= 8) return showTrouble(win, lastTrouble ?? { reason: "page-crashed", detail: lastPageGone });
       mainLog("the trouble page keeps crashing: asking in a dialog");
-      const { response } = await dialog.showMessageBox(win, { type: "warning", message: "Bops' window keeps crashing", detail: `Try again, and if it happens again, send us the logs (${app.getPath("logs")}).`, buttons: ["Try again", "Quit"], defaultId: 0, cancelId: 1 });
+      const { response } = await dialog.showMessageBox(win, { type: "warning", message: "The Lazy Founder's window keeps crashing", detail: `Try again, and if it happens again, send us the logs (${app.getPath("logs")}).`, buttons: ["Try again", "Quit"], defaultId: 0, cancelId: 1 });
       mainLog(`dialog: ${response === 1 ? "Quit" : "Try again"}`);
       if (response === 1) return app.quit();
       failures = [];
@@ -694,7 +700,7 @@ async function createWindow() {
     height: 860,
     minWidth: 1180,
     minHeight: 640,
-    title: "Bops",
+    title: "The Lazy Founder",
     titleBarStyle: "hiddenInset",
     trafficLightPosition: { x: 14, y: 14 },
     backgroundColor: "#FFFFFF",
@@ -937,7 +943,7 @@ function askNotify() {
       }
       resolve(status);
     };
-    const n = new Notification({ title: "Bops", body: "Your bots can tell you when something needs you.", silent: true });
+    const n = new Notification({ title: "The Lazy Founder", body: "Your bots can tell you when something needs you.", silent: true });
     n.once("show", () => done("granted"));
     n.once("failed", () => done("denied"));
     const timer = setTimeout(() => done(notifyKnown() ?? "not-determined"), 30_000);
@@ -1346,7 +1352,7 @@ ipcMain.handle("update-install", () => restart());
 ipcMain.handle("update-auto", () => (updates ? { auto: updates.auto(), canSelfUpdate: updates.canSelfUpdate() } : null));
 ipcMain.handle("update-set-auto", (_, on) => updates?.setAuto(!!on) ?? null);
 
-app.setName("Bops");
+app.setName("The Lazy Founder");
 /*
  * One Bops at a time. Every copy shares the same Application Support folder and server, so a second
  * one (another copy opened from a download, say) brings the first to the front and closes, instead
@@ -1355,7 +1361,7 @@ app.setName("Bops");
 const first = app.requestSingleInstanceLock();
 if (!first) {
   // `npm run app` shares the installed app's folder: say why it closed.
-  if (!app.isPackaged) console.error("Bops is already open (the installed app, or another npm run app). Quit it to run this one.");
+  if (!app.isPackaged) console.error("The Lazy Founder is already open (the installed app, or another npm run app). Quit it to run this one.");
   app.quit();
 }
 app.on("second-instance", () => app.isReady() && showMain());

@@ -65,7 +65,7 @@ const LAUNCH_KEEPS = ["bundle_id", "name", "urls"];
  */
 const OFF_LIMITS = [
   // Any build of Bops ("Bops", "Bops Beta", "Bops Dev", "Bops Helper (Renderer)").
-  ["Bops", /^(bops\b.*|electron(\s+helper\b.*)?)$/, /^(ai\.orgo\.bops|com\.github\.electron)(\.|$)/],
+  ["Bops", /^(bops\b.*|the lazy founder\b.*|electron(\s+helper\b.*)?)$/, /^(ai\.orgo\.bops|com\.github\.electron)(\.|$)/],
   ["Cua Driver", /^(cua ?driver|cua-driver|cua-spacesd)$/, /^com\.trycua\./],
   [
     "System Settings",
@@ -109,7 +109,7 @@ const OFF_LIMITS = [
 export const OFF_LIMITS_SAID = "Bops itself, System Settings, Keychain Access, password managers, terminals and apps that run commands, remote sessions, AI agent apps, clipboard managers and Activity Monitor";
 /** The names any of them goes by, for a line of text that isn't JSON. */
 const MENTIONS =
-  /\b(bops|electron|cua ?driver|cua-driver|system settings|system preferences|securityagent|keychain access|passwords|1password|bitwarden|dashlane|lastpass|keepassxc|terminal|iterm2?|warp|alacritty|kitty|wezterm|ghostty|script editor|automator|shortcuts|visual studio code|vscodium|cursor|xcode|docker|nomachine|screen sharing|remote desktop|windows app|utm|teamviewer|anydesk|iphone mirroring|codex|chatgpt|claude|paste|maccy|activity monitor|disk utility)\b/i;
+  /\b(bops|the lazy founder|electron|cua ?driver|cua-driver|system settings|system preferences|securityagent|keychain access|passwords|1password|bitwarden|dashlane|lastpass|keepassxc|terminal|iterm2?|warp|alacritty|kitty|wezterm|ghostty|script editor|automator|shortcuts|visual studio code|vscodium|cursor|xcode|docker|nomachine|screen sharing|remote desktop|windows app|utm|teamviewer|anydesk|iphone mirroring|codex|chatgpt|claude|paste|maccy|activity monitor|disk utility)\b/i;
 
 /** The app bundles a path runs from ("/Applications/Bops.app/Contents/Frameworks/Bops Helper.app/…" has two), and its program's name. */
 const bundlesIn = (path) =>

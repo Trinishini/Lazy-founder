@@ -1,6 +1,7 @@
 "use client";
 
 import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
+import { PRODUCT_NAME } from "@/lib/brand";
 import { dropCitations, plainText } from "@/lib/plain-words";
 import { apiCallOf, callsSaid, lastCalls } from "./keys";
 import { MAIN_WORKSPACE, waitingAsks, WORKSPACE_APPS_SINCE, workspaceOf, type AppState, type Chat, type Session, type Watch } from "@/lib/types";
@@ -23,6 +24,7 @@ import { UpdateNotice } from "./update-notice";
 import { MailAddressStep } from "./mail-address";
 import { NoticeCard } from "./notice-popup";
 import { forgetWorkspaceHere } from "@/lib/workspace-local";
+import { BrandMark } from "./brand-mark";
 import { ago, ChatAvatar, chatInWorkspace, chatName, currentWorkspace, NeedsYouDot, post, RoundButton, SideToggleIcon, useNow } from "./ui";
 import { ChartIcon } from "./team-chart";
 import { mayChange, ownerWho, roleHere, roleLabel, saidBy, saidName, sharedBy, type SharedWorkspace } from "@/lib/shared";
@@ -250,6 +252,10 @@ export function Sidebar({
     // Its color and edge are the column's (bops-app.tsx), which it keeps folded to the rail (sidebar-rail.tsx);
     // its width is its own, so sliding open it's uncovered rather than squeezed.
     <aside className="flex min-h-0 w-[340px] shrink-0 flex-col px-2.5 pb-3 pt-3.5">
+      <div className="mb-2 flex items-center gap-2.5 rounded-[14px] bg-brand px-2.5 py-2 text-brand-foreground">
+        <BrandMark size={26} />
+        <span className="min-w-0 truncate text-[13px] font-semibold tracking-[-0.02em]">{PRODUCT_NAME}</span>
+      </div>
       <div className="flex items-center justify-between pb-3 pl-2.5 pr-2">
         {query === null ? (
           <WorkspaceSwitcher state={state} opened={workspaces} onTeamChart={onTeamChart} />
@@ -672,7 +678,7 @@ export function YouMenuView({
             ) : (
               <button role="menuitem" onClick={() => setRestart(true)} className={item}>
                 <RestartIcon />
-                Restart Bops
+                Restart {PRODUCT_NAME}
               </button>
             ))}
           {user && (

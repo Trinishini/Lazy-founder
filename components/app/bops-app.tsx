@@ -1,5 +1,6 @@
 "use client";
 
+import { PRODUCT_NAME } from "@/lib/brand";
 import { APPS_NAME, appsOwnShown, appsShown } from "@/lib/apps-access";
 import { screenMap } from "@/lib/screens";
 import { chatAsks } from "@/lib/asks";
@@ -2323,7 +2324,7 @@ function FirstLoad() {
     return () => clearTimeout(t);
   }, []);
   return (
-    <BoppyLoading label="Loading Bops…">
+    <BoppyLoading label={`Loading ${PRODUCT_NAME}…`}>
       {slow && (
         <div className="flex flex-col items-center gap-3">
           <span>This is taking longer than usual.</span>
@@ -2331,7 +2332,7 @@ function FirstLoad() {
             <div className="flex w-[300px] justify-center">
               <RestartButton className="flex items-center gap-1.5 rounded-full bg-[#F2F2F0] px-3.5 py-1.5 text-[13px] font-medium leading-4 text-ink hover:bg-[#EAEAE7]">
                 <RestartIcon />
-                Restart Bops
+                Restart {PRODUCT_NAME}
               </RestartButton>
             </div>
           )}
